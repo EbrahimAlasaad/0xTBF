@@ -1,6 +1,6 @@
 # 0xTBF
 This simple script to penetrate accounts Twitter brute-force
-## I am not responsible for your action.
+### I am not responsible for your action.
 # Installation
 ```bash
 $ git clone https://github.com/0xAbdullah/0xTBF.git
@@ -11,7 +11,7 @@ $ pip install proxylist
 ```bash
 python 0xTBF.py -u [Username] -p [PasswordList] -proxy [ProxyList]
 ```
-# Coded By
+## Coded By
 Abdullah AlZahrani
 
 Website: www.0xa.tech
