@@ -22,4 +22,4 @@ Twitter : 0xAbdullah
 # Donation
 If this project help you, you can give me a cup of coffee :)
 
-[![Donate](s)]
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://google.com)
