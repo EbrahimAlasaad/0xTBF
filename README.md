@@ -1,6 +1,8 @@
 # 0xTBF
 This simple script to penetrate accounts Twitter brute-force
 ### I am not responsible for your action.
+# screenshot
+![alt text](https://github.com/0xAbdullah/0xTBF/blob/master/Screenshot.png)
 # Installation
 ```bash
 $ git clone https://github.com/0xAbdullah/0xTBF.git
