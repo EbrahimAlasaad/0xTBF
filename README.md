@@ -13,6 +13,10 @@ $ pip install proxylist
 ```bash
 python 0xTBF.py -u [Username] -p [PasswordList] -proxy [ProxyList]
 ```
+### Proxy
+```bash
+You need a list of https proxies
+```
 ## Coded By
 Abdullah AlZahrani (0xAbdullah)
 
