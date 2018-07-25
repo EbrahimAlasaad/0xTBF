@@ -15,7 +15,7 @@ print('''\033[1;36m
            .::    .::  .:  .::      .::    .:     .: .::      
              .:::     .::   .::     .::    .:::: .:: .::      
         ******************************************************
-        * > 0xTBF v1.1 Twitter brute-force                   *
+        * > 0xTBF v1.2 Twitter brute-force                   *
         * > Coded By: Abdullah AlZahrani (0xAbdullah)        *
         * > Twitter: @0xAbdullah | GitHub.com/0xAbdullah     *
         * > I am not responsible for your action             *
@@ -50,7 +50,7 @@ def checkUpdate(): # Thanks xSecurity for your help | Follow him on Twitter: @xS
     xBTF = os.path.basename(__file__)
     print('[==] Checking For Update..')
     check = b.open('https://raw.githubusercontent.com/0xAbdullah/0xTBF/master/version').read()
-    if '0xTBF_v1.1' not in check:
+    if '0xTBF_v1.2' not in check:
         print('[$] There New Update | Wait...')
         newUpdate = b.open('https://raw.githubusercontent.com/0xAbdullah/0xTBF/master/0xTBF.py').read()
         update = file(xBTF, 'w')
@@ -62,7 +62,10 @@ def checkUpdate(): # Thanks xSecurity for your help | Follow him on Twitter: @xS
 def proxy():
     logging.basicConfig()
     pl = ProxyList()
-    pl.load_file(proxyList)
+    try:
+        pl.load_file(proxyList)
+    except:
+        sys.exit('[!] Proxy File format has incorrect | EXIT...')
     pl.random()
     getProxy = pl.random().address()
     b.set_proxies(proxies={"https": getProxy})
