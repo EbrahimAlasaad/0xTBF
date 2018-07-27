@@ -23,7 +23,4 @@ Abdullah AlZahrani (0xAbdullah)
 Website: www.0xa.tech
 
 Twitter : 0xAbdullah
-# Donation
-If this project help you, you can give me a cup of coffee :)
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/0xAbdullah/5)
